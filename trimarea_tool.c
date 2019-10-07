@@ -1,3 +1,6 @@
+/*
+ *  By munjeni @ 2016
+ */
 #include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
