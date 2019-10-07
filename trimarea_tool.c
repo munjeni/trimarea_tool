@@ -35,11 +35,6 @@ typedef unsigned long long ssize_t;
 #define UNIT_UNLOCK_KEY 0x000008b2
 #define UNIT_DRM_KEY 0x0001046b
 
-typedef signed char INT8;
-typedef signed short INT16;
-typedef signed int INT32;
-typedef signed __int64 INT64;
-
 static ssize_t g_getline(char **lineptr, size_t *n, FILE *stream)
 {
 	char *cur_pos, *new_lineptr;
