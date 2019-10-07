@@ -1,24 +1,28 @@
 /*
  *  By munjeni @ 2016
  */
-#include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <inttypes.h>
 #include <limits.h>
+#include <errno.h>
 #include <sys/stat.h>
 
 #define ENABLE_DEBUG 1
 
+/*
 /////////////////////////////////////////////////////////////////////////////////
 
 			FOLOWING USEFULL INFORMATION IS FROM
          https://github.com/dosomder/ta-info/blob/master/TAInfo/trimarea.h
 
 /////////////////////////////////////////////////////////////////////////////////
+*/
+
 //partition types
 #define TRIMAREA_PARTITION_TRIM 1
 #define TRIMAREA_PARTITION_MISC 2
@@ -79,6 +83,67 @@
 #define TA_UNIT_2_REMOTE_LOCK 0x1046C //a sin file
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
+
+const char *name(int value)
+{
+#define NAME(UNITNAME) case UNITNAME: return #UNITNAME;
+	switch (value)
+	{
+		NAME(TA_UNIT_1_RF_BC_CFG)
+		NAME(TA_UNIT_1_LTE_BC_CFG)
+		//
+		NAME(TA_UNIT_2_FLA_FLA)
+		NAME(TA_UNIT_2_S1_LDR)
+		NAME(TA_UNIT_2_SENS_DATA)
+		NAME(TA_UNIT_2_DRM_KEY_STATUS)
+		NAME(TA_UNIT_2_BLOB_0)
+		NAME(TA_UNIT_2_BLOB_1)
+		NAME(TA_UNIT_2_BLOB_2)
+		NAME(TA_UNIT_2_BLOB_3)
+		NAME(TA_UNIT_2_BLOB_4)
+		NAME(TA_UNIT_2_BLOB_5)
+		NAME(TA_UNIT_2_BLOB_6)
+		NAME(TA_UNIT_2_BLOB_7)
+		NAME(TA_UNIT_2_BLOB_8)
+		NAME(TA_UNIT_2_BLOB_9)
+		NAME(TA_UNIT_2_BLOB_A)
+		NAME(TA_UNIT_2_BLOB_B)
+		NAME(TA_UNIT_2_BLOB_C)
+		NAME(TA_UNIT_2_BLOB_D)
+		NAME(TA_UNIT_2_BLOB_E)
+		NAME(TA_UNIT_2_SRM)
+		NAME(TA_UNIT_2_LAST_BOOT_LOG)
+		NAME(TA_UNIT_2_MACHINE_ID)
+		NAME(TA_UNIT_2_SW_VER)
+		NAME(TA_UNIT_2_CUST_VER)
+		NAME(TA_UNIT_2_FS_VER)
+		NAME(TA_UNIT_2_S1_BOOT_VER)
+		NAME(TA_UNIT_2_BUILD_TYPE)
+		NAME(TA_UNIT_2_PHONE_NAME)
+		NAME(TA_UNIT_2_AC_VER)
+		NAME(TA_UNIT_2_BL_UNLOCKCODE)
+		NAME(TA_UNIT_2_STARTUP_SHUTDOWNRESULT)
+		NAME(TA_UNIT_2_STARTUP_REASON)
+		NAME(TA_UNIT_2_DISABLE_CHARGE_ONLY)
+		NAME(TA_UNIT_2_OSV_RESTRICTION)
+		NAME(TA_UNIT_2_MODEM_CUST_CFG)
+		NAME(TA_UNIT_2_FLASH_LOG)
+		NAME(TA_UNIT_2_ENABLE_NONSECURE_USB_DEBUG)
+		NAME(TA_UNIT_2_CREDMGR_KEYTABLE_PRESET)
+		NAME(TA_UNIT_2_BASEBAND_CFG)
+		NAME(TA_UNIT_2_WIFI_MAC)
+		NAME(TA_UNIT_2_BLUETOOTH_MAC)
+		NAME(TA_UNIT_2_SERIAL_NO)
+		NAME(TA_UNIT_2_PBA_ID)
+		NAME(TA_UNIT_2_PBA_ID_REV)
+		NAME(TA_UNIT_2_PP_SEMC_ITP_PRODUCT_NO)
+		NAME(TA_UNIT_2_PP_SEMC_ITP_REV)
+		NAME(TA_UNIT_2_DEVICE_KEY)
+		NAME(TA_UNIT_2_REMOTE_LOCK)
+	}
+	return "unknown";
+#undef NAME
+}
 
 #ifndef SSIZE_MAX
 typedef unsigned long long ssize_t;
@@ -659,6 +724,19 @@ int main(int argc, char *argv[])
 				fpta = fopen(tmp, "w+");
 				if (fpta)
 				{
+					switch((uint8_t)partition)
+					{
+						case TRIMAREA_PARTITION_TRIM:
+							fwrite("//trim partition\n", 1, 17, fpta);
+							break;
+
+						case TRIMAREA_PARTITION_MISC:
+							fwrite("//misc partition\n", 1, 17, fpta);
+							break;
+
+						default:
+							break;
+					}
 					fwrite(tmp, 1, 2, fpta);
 					fwrite("\n\n", 1, 2, fpta);
 				}
@@ -747,11 +825,48 @@ int main(int argc, char *argv[])
 							//printf_hex(unit_data, unit_size);
 							if (fpta)
 							{
+								if (memcmp(name(unit), "unknown", 7) != 0)
+								{
+									switch(partition)
+									{
+										case TRIMAREA_PARTITION_TRIM:
+											if (strstr(name(unit), "TA_UNIT_1") != NULL)
+												fprintf(fpta, "\n//%s\n", name(unit));
+											break;
+
+										case TRIMAREA_PARTITION_MISC:
+											if (strstr(name(unit), "TA_UNIT_2") != NULL)
+												fprintf(fpta, "\n//%s\n", name(unit));
+											break;
+
+										default:
+											break;
+									}
+								}
 								fprintf(fpta, "%08X ", unit);
 								fprintf(fpta, "%04X ", unit_size);
 								for (k=0; k<unit_size; ++k)
 									fprintf(fpta, "%02X", reconstruct[i][curpos+16+k] & 0xff);
 								fprintf(fpta, "\n");
+								if (memcmp(name(unit), "unknown", 7) != 0)
+								{
+									switch(partition)
+									{
+										case TRIMAREA_PARTITION_TRIM:
+											if (strstr(name(unit), "TA_UNIT_1") != NULL)
+												fprintf(fpta, "\n");
+											break;
+
+										case TRIMAREA_PARTITION_MISC:
+											if (strstr(name(unit), "TA_UNIT_2") != NULL)
+												fprintf(fpta, "\n");
+											break;
+
+										default:
+											break;
+									}
+								}
+
 							}
 							
 							curpos += (4 + 4 + 4 + 4 + unit_size + (unit_size_aligned - unit_size));
@@ -847,7 +962,7 @@ int main(int argc, char *argv[])
 			break;
 		
 		default:
-			printf("You device (%s) is not supported!", supported_device);
+			printf("Your device (%s) is not supported!\n", supported_device);
 			break;
 	}
 	
