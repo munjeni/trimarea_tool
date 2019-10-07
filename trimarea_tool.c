@@ -54,6 +54,7 @@
 #define TA_UNIT_2_BLOB_E 0x7F4
 #define TA_UNIT_2_SRM 0x7F8
 #define TA_UNIT_2_LAST_BOOT_LOG 0x802
+#define TA_UNIT_2_SENS_DATA_SIGNATURE 0x851	//signature of the unit 0x7DA
 #define TA_UNIT_2_MACHINE_ID 0x85D
 #define TA_UNIT_2_SW_VER 0x89A
 #define TA_UNIT_2_CUST_VER 0x89D
@@ -68,6 +69,7 @@
 #define TA_UNIT_2_DISABLE_CHARGE_ONLY 0x907
 #define TA_UNIT_2_OSV_RESTRICTION 0x91A
 #define TA_UNIT_2_MODEM_CUST_CFG 0x964 //FOTA_INTERNAL ?? cfg located in system/etc/customization/modem/ -> fota-reset.ta zeroes this
+#define TA_UNIT_2_ENABLE_SERIAL_CONSOLE 0x9A9	//value 1 for enable serial console or value 0 (default) to disable (https://forum.xda-developers.com/showpost.php?p=80212371&postcount=1125)
 #define TA_UNIT_2_FLASH_LOG 0x9AB
 #define TA_UNIT_2_ENABLE_NONSECURE_USB_DEBUG 0x9B6
 #define TA_UNIT_2_CREDMGR_KEYTABLE_PRESET 0x9C4
@@ -81,6 +83,8 @@
 #define TA_UNIT_2_PP_SEMC_ITP_REV 0x132D
 #define TA_UNIT_2_DEVICE_KEY 0x1046B
 #define TA_UNIT_2_REMOTE_LOCK 0x1046C //a sin file
+#define TA_UNIT_2_GOOGLE_LOCK 0x1046F	//google lock ( allow bootloader unlock in dev settings )
+#define TA_UNIT_2_PROTOCOL_SWITCH 0x10471	//protocol switch? Or keystore? What is this? Depend on existance of unit 0x36A (https://forum.xda-developers.com/showpost.php?p=80176195&postcount=1093)
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -113,6 +117,7 @@ const char *name(int value)
 		NAME(TA_UNIT_2_BLOB_E)
 		NAME(TA_UNIT_2_SRM)
 		NAME(TA_UNIT_2_LAST_BOOT_LOG)
+		NAME(TA_UNIT_2_SENS_DATA_SIGNATURE)
 		NAME(TA_UNIT_2_MACHINE_ID)
 		NAME(TA_UNIT_2_SW_VER)
 		NAME(TA_UNIT_2_CUST_VER)
@@ -127,6 +132,7 @@ const char *name(int value)
 		NAME(TA_UNIT_2_DISABLE_CHARGE_ONLY)
 		NAME(TA_UNIT_2_OSV_RESTRICTION)
 		NAME(TA_UNIT_2_MODEM_CUST_CFG)
+		NAME(TA_UNIT_2_ENABLE_SERIAL_CONSOLE)
 		NAME(TA_UNIT_2_FLASH_LOG)
 		NAME(TA_UNIT_2_ENABLE_NONSECURE_USB_DEBUG)
 		NAME(TA_UNIT_2_CREDMGR_KEYTABLE_PRESET)
@@ -140,6 +146,8 @@ const char *name(int value)
 		NAME(TA_UNIT_2_PP_SEMC_ITP_REV)
 		NAME(TA_UNIT_2_DEVICE_KEY)
 		NAME(TA_UNIT_2_REMOTE_LOCK)
+		NAME(TA_UNIT_2_GOOGLE_LOCK)
+		NAME(TA_UNIT_2_PROTOCOL_SWITCH)
 	}
 	return "unknown";
 #undef NAME
