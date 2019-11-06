@@ -1,0 +1,26 @@
+id ICON "trimarea_tool.ico"
+
+1 VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "080904E4"
+    BEGIN
+      VALUE "CompanyName", "No company"
+      VALUE "FileDescription", "TA hack"
+      VALUE "FileVersion", "1.0"
+      VALUE "InternalName", "trimarea_tool"
+      VALUE "LegalCopyright", "p0kemon @ 2016"
+      VALUE "OriginalFilename", "trimarea_tool.exe"
+      VALUE "ProductName", "trimarea_tool"
+      VALUE "ProductVersion", "1.0"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x809, 1252
+  END
+END

@@ -587,6 +587,9 @@ int main(int argc, char *argv[])
 	{
 		printf("usage: %s TA.img 245B53286EA780E3A8BB014627AF7B25\n", argv[0]);
 		printf("eg: %s your_ta_dump.img drm_key_in_hex\n", argv[0]);
+#ifdef _WIN32
+	system("pause");
+#endif
 		exit(1);
 	}
 	
@@ -976,6 +979,10 @@ int main(int argc, char *argv[])
 	
 	free(blocks);
 	free(reconstruct);
+
+#ifdef _WIN32
+	system("pause");
+#endif
 	
 	return 0;
 }
