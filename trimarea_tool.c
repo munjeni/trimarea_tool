@@ -84,7 +84,7 @@
 #define TA_UNIT_2_DEVICE_KEY 0x1046B
 #define TA_UNIT_2_REMOTE_LOCK 0x1046C //a sin file
 #define TA_UNIT_2_GOOGLE_LOCK 0x1046F	//google lock ( allow bootloader unlock in dev settings )
-#define TA_UNIT_2_PROTOCOL_SWITCH 0x10471	//protocol switch? Or keystore? What is this? Depend on existance of unit 0x36A (https://forum.xda-developers.com/showpost.php?p=80176195&postcount=1093)
+#define TA_UNIT_2_PROTOCOL_SWITCH 0x10471	//dev_id HMAC key. Depend on existance of unit 0x874 (https://forum.xda-developers.com/showpost.php?p=82983507&postcount=1628)
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 
