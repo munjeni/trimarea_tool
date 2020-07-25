@@ -629,7 +629,7 @@ int main(int argc, char *argv[])
 	unsigned int partition_magic;
 	unsigned int adler32;
 	unsigned int calc_adler32;
-	unsigned char unknown;
+	unsigned char total_parts;
 	unsigned char part;
 	unsigned char partition;
 	unsigned char nob;
@@ -694,16 +694,16 @@ int main(int argc, char *argv[])
 				printf("block %d\n", i);
 				//adler32 = *(unsigned int *)&blocks[i][4];
 				memcpy(&adler32, blocks[i]+4, 4);
-				unknown = *(unsigned char *)&blocks[i][8];
+				total_parts = *(unsigned char *)&blocks[i][8];
 				part = *(unsigned char *)&blocks[i][9];
 				partition = *(unsigned char *)&blocks[i][10];
 				nob = *(unsigned char *)&blocks[i][11];
 				
-				block_space_remain -= 12; //magic, adler32, unknown+part+partition+numblocks
+				block_space_remain -= 12; //magic, adler32, total_parts+part+partition+numblocks
 				
 				memcpy(reconstruct[i], (unsigned int *)&partition_magic, 4);
 				memcpy(reconstruct[i]+4, (unsigned char *)&adler32, 4);
-				memcpy(reconstruct[i]+8, (unsigned char *)&unknown, 1);
+				memcpy(reconstruct[i]+8, (unsigned char *)&total_parts, 1);
 				memcpy(reconstruct[i]+9, (unsigned char *)&part, 1);
 				memcpy(reconstruct[i]+10, (unsigned char *)&partition, 1);
 				memcpy(reconstruct[i]+11, (unsigned char *)&nob, 1);
@@ -715,15 +715,15 @@ int main(int argc, char *argv[])
 					data_size = ((nob + 1) * 0x800) - 0x8;
 				
 				printf("partition hash: %08X\n", adler32);
-				printf("unknown: %d\n", unknown);
-				printf("part: %d\n", part);
 				printf("partition: %d\n", partition);
+				printf("part: %d\n", part);
+				printf("total_parts: %d\n", total_parts);
 				printf("numofblocks: 0x%X\n", nob);
 				printf("data size: 0x%X\n", data_size);
 				
 				char tmp[10];
-				tmp[0] = HEX[unknown >> 4];
-				tmp[1] = HEX[unknown & 15];
+				tmp[0] = HEX[total_parts >> 4];
+				tmp[1] = HEX[total_parts & 15];
 				tmp[2] = HEX[part >> 4];
 				tmp[3] = HEX[part & 15];
 				tmp[4] = HEX[partition >> 4];
