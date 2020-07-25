@@ -748,7 +748,7 @@ int main(int argc, char *argv[])
 						default:
 							break;
 					}
-					fwrite(tmp, 1, 2, fpta);
+					fwrite(tmp+4, 1, 2, fpta);
 					fwrite("\n\n", 1, 2, fpta);
 				}
 			
