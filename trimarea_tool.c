@@ -85,6 +85,7 @@
 #define TA_UNIT_2_REMOTE_LOCK 0x1046C //a sin file
 #define TA_UNIT_2_GOOGLE_LOCK 0x1046F	//google lock ( allow bootloader unlock in dev settings )
 #define TA_UNIT_2_PROTOCOL_SWITCH 0x10471	//dev_id HMAC key. Depend on existance of unit 0x874 (https://forum.xda-developers.com/showpost.php?p=82983507&postcount=1628)
+#define TA_UNIT_2_BOOT_COUNTER 0x805
 /////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -148,6 +149,7 @@ const char *name(int value)
 		NAME(TA_UNIT_2_REMOTE_LOCK)
 		NAME(TA_UNIT_2_GOOGLE_LOCK)
 		NAME(TA_UNIT_2_PROTOCOL_SWITCH)
+		NAME(TA_UNIT_2_BOOT_COUNTER)
 	}
 	return "unknown";
 #undef NAME

@@ -26,6 +26,7 @@
 #define TA_FLA_FLA                       2002
 #define TA_SIMLOCK_DATA                  2010
 #define TA_DRM_DYN_DATA                  2040
+#define TA_BOOT_COUNTER                  2053
 #define TA_DRM_CUST                      2099
 #define TA_SIMLOCK_SIGNATURE             2129
 #define TA_SW_VERSION                    2202
