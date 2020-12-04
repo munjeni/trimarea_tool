@@ -11,10 +11,10 @@ BEGIN
       VALUE "CompanyName", "No company"
       VALUE "FileDescription", "TA hack"
       VALUE "FileVersion", "1.0"
-      VALUE "InternalName", "trimarea_tool"
-      VALUE "LegalCopyright", "munjeni @ 2016"
-      VALUE "OriginalFilename", "trimarea_tool.exe"
-      VALUE "ProductName", "trimarea_tool"
+      VALUE "InternalName", "trimarea_reconstruct"
+      VALUE "LegalCopyright", "munjeni @ 2020"
+      VALUE "OriginalFilename", "trimarea_reconstruct.exe"
+      VALUE "ProductName", "trimarea_reconstruct"
       VALUE "ProductVersion", "1.0"
     END
   END
